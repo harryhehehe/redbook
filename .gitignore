@@ -39,6 +39,7 @@ _demo_out.txt
 _raw.json
 *.sqlite
 *.db
+archive.db
 .pytest_cache/
 .coverage
 htmlcov/

@@ -7,7 +7,7 @@ from pathlib import Path
 import streamlit as st
 from dotenv import load_dotenv
 
-from app import data, recommender, prompt_builder, llm_client, renderer, lead_magnet_gen
+from app import data, recommender, prompt_builder, llm_client, renderer, lead_magnet_gen, storage
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT / ".env")
@@ -91,10 +91,116 @@ st.caption("输入主题 → AI 生成结构化帖子 → 你微调每个 block 
 
 page = st.radio(
     "功能",
-    ["✏️ 生成帖子", "🎁 生成引流资料 PDF"],
+    ["✏️ 生成帖子", "🎁 生成引流资料 PDF", "📚 历史记录"],
     horizontal=True,
     label_visibility="collapsed",
 )
+
+# ============================================================
+# 📚 历史记录页
+# ============================================================
+if page == "📚 历史记录":
+    st.subheader("📚 历史记录")
+    s = storage.stats()
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("📝 帖子数", s["posts"])
+    c2.metric("📄 PDF 数", s["pdfs"])
+    c3.metric("💾 PDF 总大小", f"{s['pdf_total_bytes']/1024/1024:.1f} MB")
+    with c4:
+        st.write("")
+        if s["posts"] + s["pdfs"] > 0:
+            st.download_button(
+                "📦 全部导出 ZIP",
+                data=storage.export_zip(),
+                file_name=f"redbook_archive_{__import__('time').strftime('%Y%m%d_%H%M%S')}.zip",
+                mime="application/zip",
+                use_container_width=True,
+            )
+
+    st.caption("💡 Streamlit Cloud 上 archive.db 在重新部署（git push）时会被重置，建议定期点【全部导出 ZIP】备份到本地。EXE 版本则永久保留。")
+
+    tab_p, tab_d = st.tabs(["📝 帖子历史", "📄 PDF 历史"])
+
+    with tab_p:
+        kw = st.text_input("🔍 搜索（标题或正文）", key="hp_kw")
+        rows = storage.list_posts(kw)
+        if not rows:
+            st.info("暂无帖子记录" if not kw else "没有匹配的帖子")
+        for r in rows:
+            label = f"#{r['id']:04d} · {r['created_at']} · 【{r['topic']}】 · {r['mode']}/{r['template_id'] or '-'}"
+            with st.expander(label):
+                full = storage.get_post(r["id"])
+                col_a, col_b, col_c = st.columns([1, 1, 1])
+                with col_a:
+                    st.download_button(
+                        "📥 下载 .txt",
+                        data=full["body_text"],
+                        file_name=f"post_{r['id']:04d}_{r['topic'][:30]}.txt",
+                        mime="text/plain",
+                        key=f"dlp_{r['id']}",
+                    )
+                with col_b:
+                    st.download_button(
+                        "📥 下载 JSON",
+                        data=full["blocks_json"],
+                        file_name=f"post_{r['id']:04d}.json",
+                        mime="application/json",
+                        key=f"dlpj_{r['id']}",
+                    )
+                with col_c:
+                    if st.button("🗑️ 删除", key=f"delp_{r['id']}", type="secondary"):
+                        storage.delete_post(r["id"])
+                        st.rerun()
+
+                st.caption(
+                    f"受众：{full['audience']}　|　模式：{full['mode']}　|　模板：{full['template_id'] or '自由'}"
+                    + (f"　|　额外要求：{full['extra_notes']}" if full["extra_notes"] else "")
+                )
+                st.text_area("正文", full["body_text"], height=300, key=f"pview_{r['id']}")
+
+    with tab_d:
+        kw2 = st.text_input("🔍 搜索（关键词或资料名）", key="hd_kw")
+        rows = storage.list_pdfs(kw2)
+        if not rows:
+            st.info("暂无 PDF 记录" if not kw2 else "没有匹配的 PDF")
+        for r in rows:
+            label = f"#{r['id']:04d} · {r['created_at']} · 【{r['keyword']}】《{r['resource_name']}》 · {r['size']//1024} KB"
+            with st.expander(label):
+                full = storage.get_pdf(r["id"])
+                col_a, col_b, col_c = st.columns([2, 1, 1])
+                with col_a:
+                    st.download_button(
+                        "📥 下载 PDF",
+                        data=full["pdf_blob"],
+                        file_name=f"{r['resource_name']}_{r['id']:04d}.pdf",
+                        mime="application/pdf",
+                        type="primary",
+                        key=f"dld_{r['id']}",
+                    )
+                with col_b:
+                    if st.button("👀 预览", key=f"pvd_{r['id']}"):
+                        st.session_state[f"_pv_{r['id']}"] = True
+                with col_c:
+                    if st.button("🗑️ 删除", key=f"deld_{r['id']}", type="secondary"):
+                        storage.delete_pdf(r["id"])
+                        st.rerun()
+
+                st.caption(
+                    f"受众：{full['audience']}"
+                    + (f"　|　额外要求：{full['extra_instructions']}" if full["extra_instructions"] else "")
+                )
+                if st.session_state.get(f"_pv_{r['id']}"):
+                    try:
+                        import fitz
+                        pdf = fitz.open(stream=full["pdf_blob"], filetype="pdf")
+                        for i, p in enumerate(pdf, start=1):
+                            pix = p.get_pixmap(dpi=120)
+                            st.image(pix.tobytes("png"), caption=f"第 {i} 页", use_container_width=True)
+                        pdf.close()
+                    except Exception as e:
+                        st.warning(f"预览失败：{e}")
+
+    st.stop()
 
 if page == "🎁 生成引流资料 PDF":
     st.subheader("🎁 引流资料 PDF 生成器")
@@ -152,6 +258,20 @@ if page == "🎁 生成引流资料 PDF":
 
             with st.spinner("🎨 渲染 PDF..."):
                 pdf_bytes = lead_magnet_gen.render_pdf(content)
+
+            # 自动存档
+            try:
+                pid = storage.save_pdf(
+                    keyword=keyword,
+                    resource_name=resource_name,
+                    audience=lm_audience,
+                    extra_instructions=extra_instructions.strip(),
+                    content=content,
+                    pdf_bytes=pdf_bytes,
+                )
+                st.toast(f"📚 已存入历史记录 #{pid:04d}", icon="✅")
+            except Exception as e:
+                st.warning(f"存档失败（不影响下载）：{e}")
 
             st.session_state["last_pdf"] = pdf_bytes
             st.session_state["last_pdf_name"] = f"{resource_name}.pdf"
@@ -268,6 +388,21 @@ if topic:
                         result = llm_client.generate_blocks(system_prompt, user_prompt)
                         st.session_state["last_result"] = result
                         st.session_state["last_topic"] = topic
+                        # 自动存档（先渲染 body 再存）
+                        try:
+                            _body = renderer.render(result["blocks"])
+                            pid = storage.save_post(
+                                topic=topic,
+                                audience=audience,
+                                mode="free" if free_mode else "template",
+                                template_id=template_id,
+                                extra_notes=extra_notes,
+                                body_text=_body,
+                                blocks=result["blocks"],
+                            )
+                            st.toast(f"📚 已存入历史记录 #{pid:04d}", icon="✅")
+                        except Exception as _e:
+                            st.warning(f"存档失败（不影响显示）：{_e}")
                     except llm_client.LLMError as e:
                         st.error(f"❌ {e}")
                         st.stop()
