@@ -1,0 +1,129 @@
+{
+  "version": "1.0",
+  "description": "可复用的素材库。LLM 生成时从中随机或按场景挑选，避免每次都'白手起家'。",
+
+  "title_hook_patterns": [
+    {"type": "扎心", "examples": ["孩子说'粗心'，千万别信", "假装努力，比躺平更可怕", "这句话，我每周听到 5 次以上"]},
+    {"type": "数字", "examples": ["几何辅助线 6 句口诀", "5 个年年有人跳的坑", "深圳 10 校高一数学起点"]},
+    {"type": "疑问", "examples": ["为什么有些孩子'突然开窍'？", "学数学有什么用？", "怎么判断补课老师好不好？"]},
+    {"type": "反常识", "examples": ["我反对初中生盲目刷题", "数学好的人，做题反而'慢'", "最后 30 天，准高一最该做的不是预习"]},
+    {"type": "身份", "examples": ["深圳家长注意：中考数学，和广州不一样", "深圳初二家长必须知道", "我带 8 届毕业班总结的"]},
+    {"type": "对比", "examples": ["改造前 vs 改造后", "初中生 vs 高中生：同一道题", "中考 140+，高一第一次月考 69 分"]}
+  ],
+
+  "opener_patterns": {
+    "student_quote": [
+      "我学生说：老师，我之前 X 全靠蒙😂",
+      "学生拿到 X 题，第一反应：Y。我说：停！",
+      "学生问我：X 有什么用？",
+      "学生说：X 题文字太多，读不懂"
+    ],
+    "parent_question": [
+      "家长私信我：X，怎么办？",
+      "家长问：X 是不是 Y？",
+      "家长最常说的三个字：'又粗心。'",
+      "家长常问：X 差多少？"
+    ],
+    "bold_claim": [
+      "我反对 X 💥",
+      "X，千万别信🙅‍♀️",
+      "深圳初中生最累的，不是 X，是 Y",
+      "我不建议 X"
+    ],
+    "observation": [
+      "我批过 300+ 份卷子，发现 X",
+      "我带 200+ 学生后，发现 X",
+      "今天带一个学生，第一节课的状态：X，第三节课的状态：Y",
+      "今天改造了一个学生的 X，改造前 vs 改造后👇"
+    ]
+  },
+
+  "engagement_hook_patterns": {
+    "option": [
+      "你同意'{观点}'吗？\n评论区站队👇",
+      "你家孩子是'{选项A}'还是'{选项B}'？\n评论区告诉我👇"
+    ],
+    "describe": [
+      "你家孩子有没有 {现象}？\n评论区描述一下👇",
+      "你家孩子现在 {场景}\n评论区聊聊👇"
+    ],
+    "number": [
+      "你家孩子属于哪种'{痛点}'？\n评论区报数字👇",
+      "你家孩子中过哪个坑？\n评论区报数字👇"
+    ]
+  },
+
+  "lead_magnet_examples": [
+    {"keyword": "口诀", "resource_name": "几何辅助线决策树", "resource_desc": "20 个条件对应策略，可打印"},
+    {"keyword": "防呆", "resource_name": "计算防错检查清单", "resource_desc": "5 大错误类型 + 对应策略"},
+    {"keyword": "神图", "resource_name": "二次函数 5 种常考图像模型", "resource_desc": "可直接打印贴墙上"},
+    {"keyword": "避坑", "resource_name": "初中数学 30 个概念陷阱清单", "resource_desc": "含易错题专项训练"},
+    {"keyword": "翻译", "resource_name": "函数条件翻译手册", "resource_desc": "50 个高频条件对应式子"},
+    {"keyword": "诊断", "resource_name": "学习问题诊断", "resource_desc": "免费做一次诊断，限前 20 名家长"},
+    {"keyword": "测评", "resource_name": "孩子学习风格自测表", "resource_desc": "10 题，3 分钟出结果"},
+    {"keyword": "30天", "resource_name": "中考前 30 天冲刺规划表", "resource_desc": "含每日时间分配建议"},
+    {"keyword": "总结", "resource_name": "错题复盘 3 问模板", "resource_desc": "可直接打印贴在错题本首页"},
+    {"keyword": "排异", "resource_name": "选课避坑 3 问清单", "resource_desc": "选老师前必问"},
+    {"keyword": "动力", "resource_name": "孩子学习动力诊断 3 问", "resource_desc": "判断不想学还是不想补"},
+    {"keyword": "选老师", "resource_name": "试听课必观察清单", "resource_desc": "3 个细节看出老师水平"},
+    {"keyword": "鸿沟", "resource_name": "做题自我对话 3 问", "resource_desc": "解决听懂不会做"},
+    {"keyword": "思维", "resource_name": "数学思维生活迁移 10 例", "resource_desc": "回答孩子'学这个有什么用'"},
+    {"keyword": "错题本", "resource_name": "错题本改造模板", "resource_desc": "从忏悔型到作战型"},
+    {"keyword": "信心", "resource_name": "第一节课破冰设计", "resource_desc": "找到第一个小胜利"},
+    {"keyword": "深圳", "resource_name": "深圳中考数学特色分析", "resource_desc": "题型/压轴/评分差异"},
+    {"keyword": "目标校", "resource_name": "深圳 10 校高一数学起点分析", "resource_desc": "深中/实验/红岭对比"},
+    {"keyword": "教材", "resource_name": "新教材变化对照表", "resource_desc": "2024 秋季新教材必读"},
+    {"keyword": "节奏", "resource_name": "数学做题节奏训练法", "resource_desc": "先稳再快"},
+    {"keyword": "初二", "resource_name": "初二数学方法切换指南", "resource_desc": "应对初二下滑"},
+    {"keyword": "波动", "resource_name": "免费试卷分析", "resource_desc": "诊断成绩波动原因"},
+    {"keyword": "作息", "resource_name": "初三高效作息模板", "resource_desc": "拒绝学到 12 点"},
+    {"keyword": "预警", "resource_name": "新高一入学能力自测", "resource_desc": "中考 140+ 也可能高一暴跌"},
+    {"keyword": "系统", "resource_name": "高中学习系统搭建指南", "resource_desc": "暑假建系统，高中三年受益"}
+  ],
+
+  "identity_lines": [
+    "我带 8 届毕业班总结的",
+    "我带过 200+ 学生后",
+    "我批过 300+ 份卷子",
+    "我带的学生 X 失分率从 40% 降到 5%",
+    "深圳本地家教，专注初中数学"
+  ],
+
+  "insight_phrasings": [
+    "不是 {表象}，是 {本质}",
+    "{X} 没有'{常见归因}'，只有'会'和'不会'",
+    "{表象} 是给自己找的台阶，{本质} 才是需要解决的问题",
+    "知识会过时，{底层能力} 不会",
+    "好 X 不是'{多}'，是'{准}'"
+  ],
+
+  "emoji_dictionary": {
+    "section_marker": ["📝", "🔥", "💡", "📊", "🎯", "⚠️", "🔧", "🌰", "🧠", "📅"],
+    "numbered_index": ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"],
+    "circled_index": ["①", "②", "③", "④", "⑤"],
+    "right_wrong": {"correct": "✅", "wrong": "❌", "warning": "⚠️"},
+    "case_marker": "🌰",
+    "insight_marker": "💡"
+  },
+
+  "divider": "——————",
+
+  "formatting_rules": {
+    "max_chars_per_line": 18,
+    "blank_line_between_blocks": true,
+    "title_max_chars": 20,
+    "use_emoji_for_list_index": true,
+    "wrap_keywords_in_brackets": "回复【{keyword}】",
+    "wrap_resource_in_quotes": "《{resource_name}》",
+    "case_study_label": "🌰 举个真题：{year}{region}中考第{number}题"
+  },
+
+  "tone_guidelines": [
+    "口语化，多用短句",
+    "学生原话直接引用，加 emoji 表情",
+    "用'我'第一人称建立信任",
+    "数据具体（'200+ 学生''从 40% 降到 5%'）",
+    "结尾必带互动 + 引流双钩子",
+    "避免说教，多用'你家孩子是 A 还是 B'式问句"
+  ]
+}

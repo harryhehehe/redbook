@@ -1,0 +1,30 @@
+{
+  "blocks": [
+    {"type": "title", "text": "几何辅助线 6 句口诀，背完中考稳了"},
+    {"type": "opener", "style": "student_quote", "text": "我学生说：老师，我之前辅助线全靠蒙😂\n其实不是不会，是缺一套'决策系统'。"},
+    {
+      "type": "principle",
+      "heading": "几何辅助线 6 句口诀",
+      "items": [
+        {"label": "见中点 → 想倍长", "detail": "倍长中线，构造全等"},
+        {"label": "见角分 → 想垂线", "detail": "角平分线 + 垂线 = 等腰"},
+        {"label": "见平行 → 转相似", "detail": "平行立刻找相似三角形"},
+        {"label": "见直径 → 连直角", "detail": "直径所对圆周角 = 90°"},
+        {"label": "见切线 → 连半径", "detail": "切线垂直于半径"},
+        {"label": "两圆交 → 公共弦", "detail": "连接两交点构造公共弦"}
+      ]
+    },
+    {
+      "type": "case_study",
+      "topic": "{TODO: 填真题年份+地区+题号}",
+      "condition": "D 是 BC 中点，∠BED = ∠BAC",
+      "common_approach": "连中线？倍长？想 5 分钟越绕越乱",
+      "new_approach": "见中点 → 想倍长，倍长 AD 到 G，平行四边形瞬间出来",
+      "result": "对角相等一转移，相似证明水到渠成"
+    },
+    {"type": "insight", "text": "辅助线不是'灵感'，是'看到条件 → 自动弹出选项'"},
+    {"type": "divider"},
+    {"type": "engagement_hook", "question": "你家孩子做几何题\n辅助线是'想出来的'还是'蒙出来的'？\n评论区告诉我👇"},
+    {"type": "lead_magnet", "keyword": "口诀", "resource_name": "几何辅助线决策树", "resource_desc": "20 个条件对应策略，可打印"}
+  ]
+}

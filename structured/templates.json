@@ -1,0 +1,138 @@
+{
+  "version": "1.0",
+  "description": "7 套小红书帖子模板，每个模板由有序 block 列表组成。block 类型定义见 schema.md。",
+  "block_types": {
+    "title": {"slots": ["text"], "rules": ["首行 20 字内必带钩子词", "可含 1-2 个 emoji"]},
+    "opener": {"slots": ["style", "text"], "style_options": ["student_quote", "parent_question", "bold_claim", "observation"]},
+    "principle": {"slots": ["heading", "items"], "item_shape": {"emoji_index": "1️⃣-9️⃣", "label": "string", "detail": "string"}},
+    "case_study": {"slots": ["topic", "condition", "common_approach", "new_approach", "result"], "rules": ["真题优先标注年份和地区", "common_approach 用 ❌ 结尾，new_approach 用 ✅ 结尾"]},
+    "breakdown": {"slots": ["heading", "items"], "item_shape": {"emoji_index": "①-⑨", "label": "string", "detail": "string", "diagnosis": "string"}},
+    "before_after": {"slots": ["before", "after"], "rules": ["before 用 ❌，after 用 ✅"]},
+    "insight": {"slots": ["text"], "rules": ["以 💡 开头", "用短句金句，每行不超过 15 字"]},
+    "method": {"slots": ["heading", "steps"], "step_shape": {"index": "Step 1️⃣-9️⃣", "name": "string", "action": "string"}},
+    "divider": {"slots": [], "render": "——————"},
+    "engagement_hook": {"slots": ["question", "cta_format"], "cta_format_options": ["option", "describe", "number"]},
+    "lead_magnet": {"slots": ["keyword", "resource_name", "resource_desc"], "render_template": "回复【{keyword}】\n领《{resource_name}》\n（{resource_desc}）"}
+  },
+  "templates": [
+    {
+      "id": "T1_solution_trick",
+      "name": "解题神技型",
+      "series": "解题神技",
+      "audience": ["student", "parent"],
+      "use_case": "传授口诀、模型、解题套路，配真题对比",
+      "blocks": [
+        {"type": "title", "guide": "用'X 神技/口诀/速解/避坑'格式，前置数字"},
+        {"type": "opener", "style": "student_quote", "guide": "学生原话或家长困惑，制造共鸣"},
+        {"type": "principle", "guide": "3-6 条口诀/原则，每条 emoji 数字标号 + 短语"},
+        {"type": "case_study", "guide": "用近 3 年本地中考真题，必须含 ❌常规做法 vs ✅口诀做法"},
+        {"type": "insight", "guide": "提炼为'不是 X，是 Y'的金句"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "describe", "guide": "问家长/学生现状，引导评论"},
+        {"type": "lead_magnet", "guide": "送配套清单/决策树/打印资料"}
+      ]
+    },
+    {
+      "id": "T2_pain_resonance",
+      "name": "痛点共鸣型",
+      "series": "学习痛点",
+      "audience": ["parent"],
+      "use_case": "拆解'粗心/假装努力/听懂不会做'等高频痛点，家长爱转发",
+      "blocks": [
+        {"type": "title", "guide": "短句直击痛点，如'粗心的真面目''假装努力'"},
+        {"type": "opener", "style": "bold_claim", "guide": "颠覆性观点开场，如'孩子说粗心，千万别信'"},
+        {"type": "breakdown", "guide": "拆解 3-5 种类型，每种含 标签+表现+诊断"},
+        {"type": "case_study", "guide": "学生真实案例（化名+具体进步数字）"},
+        {"type": "insight", "guide": "重定义痛点的金句"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "number", "guide": "让家长报数字'你家孩子属于哪种'"},
+        {"type": "lead_magnet", "guide": "送诊断表/自测清单"}
+      ]
+    },
+    {
+      "id": "T3_counter_intuitive",
+      "name": "反常识型",
+      "series": "反常识",
+      "audience": ["both"],
+      "use_case": "反对盲目刷题、反对学到 12 点等争议观点，评论区吵架=流量",
+      "blocks": [
+        {"type": "title", "guide": "明确的反对/支持立场，带争议性"},
+        {"type": "opener", "style": "bold_claim", "guide": "'我反对 X' / 'X 是错的'"},
+        {"type": "breakdown", "guide": "列出 3 种反例情况，每种说明为什么"},
+        {"type": "method", "guide": "我的替代做法（步骤化）"},
+        {"type": "insight", "guide": "底层逻辑金句"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "option", "guide": "让用户站队'你同意吗？'"},
+        {"type": "lead_magnet"}
+      ]
+    },
+    {
+      "id": "T4_parent_qa",
+      "name": "家长问答型",
+      "series": "家长问答",
+      "audience": ["parent"],
+      "use_case": "家长私信→3 问诊断→给方案，建立专家形象",
+      "blocks": [
+        {"type": "title", "guide": "复述家长原问题"},
+        {"type": "opener", "style": "parent_question", "guide": "家长私信原文"},
+        {"type": "principle", "heading_default": "我先问了 3 个问题", "guide": "3 个反问 + 每问背后判断什么"},
+        {"type": "insight", "guide": "真相点破"},
+        {"type": "method", "guide": "我的做法（步骤化）"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "describe"},
+        {"type": "lead_magnet"}
+      ]
+    },
+    {
+      "id": "T5_pick_teacher",
+      "name": "选老师/避坑型",
+      "series": "选课避坑",
+      "audience": ["parent"],
+      "use_case": "教家长'看 N 个细节判断好老师/好机构'",
+      "blocks": [
+        {"type": "title", "guide": "'看 N 个细节，比看 X 管用'"},
+        {"type": "opener", "style": "parent_question"},
+        {"type": "breakdown", "guide": "3-5 个细节，每个含 好老师做法 vs 差老师做法"},
+        {"type": "case_study", "guide": "反面案例：某机构课的真实场景"},
+        {"type": "insight"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "describe"},
+        {"type": "lead_magnet"}
+      ]
+    },
+    {
+      "id": "T6_school_compare",
+      "name": "学校/政策对比型",
+      "series": "本地化",
+      "audience": ["parent"],
+      "use_case": "深圳本地学校差异、教材改版、政策变化",
+      "blocks": [
+        {"type": "title", "guide": "带地名+年级，如'深圳初二家长注意'"},
+        {"type": "opener", "style": "observation"},
+        {"type": "breakdown", "guide": "3 个差异维度（题型/难度/评分/默认起点）"},
+        {"type": "case_study", "guide": "真实学生案例：从 A 学校转到 B 学校的落差"},
+        {"type": "insight"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "describe"},
+        {"type": "lead_magnet"}
+      ]
+    },
+    {
+      "id": "T7_teaching_diary",
+      "name": "教学日常型",
+      "series": "教学日常",
+      "audience": ["both"],
+      "use_case": "讲一个学生从 X 到 Y 的转变，建立可信度",
+      "blocks": [
+        {"type": "title", "guide": "'今天改造了一个学生的 X' / '第一节课，他...'"},
+        {"type": "opener", "style": "observation"},
+        {"type": "before_after", "guide": "改造前 ❌ vs 改造后 ✅"},
+        {"type": "case_study", "guide": "具体过程描写"},
+        {"type": "insight"},
+        {"type": "divider"},
+        {"type": "engagement_hook", "cta_format": "describe"},
+        {"type": "lead_magnet"}
+      ]
+    }
+  ]
+}
