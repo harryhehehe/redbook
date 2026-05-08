@@ -18,6 +18,41 @@ st.set_page_config(
     layout="wide",
 )
 
+# ---------- 密码门（仅当配置了 APP_PASSWORD 时生效）----------
+def _get_app_password() -> str:
+    pwd = os.getenv("APP_PASSWORD", "")
+    if not pwd:
+        try:
+            pwd = st.secrets.get("APP_PASSWORD", "")
+        except Exception:
+            pwd = ""
+    return pwd
+
+
+def _check_password():
+    expected = _get_app_password()
+    if not expected:
+        return  # 未配置密码 → 跳过门禁（本地开发友好）
+    if st.session_state.get("auth_ok"):
+        return
+    st.markdown("## 🔒 请输入访问密码")
+    st.caption("本应用仅供授权用户使用")
+    pwd = st.text_input("密码", type="password", key="_pwd_input",
+                        label_visibility="collapsed", placeholder="请输入访问密码")
+    col_a, col_b = st.columns([1, 5])
+    with col_a:
+        ok = st.button("进入", type="primary", use_container_width=True)
+    if ok:
+        if pwd == expected:
+            st.session_state["auth_ok"] = True
+            st.rerun()
+        else:
+            st.error("❌ 密码错误")
+    st.stop()
+
+
+_check_password()
+
 # ---------- Sidebar ----------
 with st.sidebar:
     st.title("⚙️ 配置")
